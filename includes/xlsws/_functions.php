@@ -440,80 +440,62 @@ EOS;
      * @param string $from
      */
     function _xls_mail($to , $subject , $body , $from = false ){
-        $mail = new XLSMimeMail();
+        if (!$from && !_xls_get_conf('ORDER_FROM', false)) { 
+            QApplication::Log(E_WARNING, 'smtp',
+                _sp('Order From email address is not defined'));
+            return false;
+        }
 
-        /**
-         * Set the from address
-         */
-        $mail->setFrom($from?$from:(_xls_get_conf('ORDER_FROM')));
-        
-        $mail->setHTMLCharset(_xls_get_conf('ENCODING' , 'ISO-8859-1'));
-        $mail->setTextCharset(_xls_get_conf('ENCODING' , 'ISO-8859-1'));
-        $mail->setHeadCharset(_xls_get_conf('ENCODING' , 'ISO-8859-1'));
-        
-        /**
-         * Set the subject
-         */
-        $mail->setSubject($subject);
+        if (!_xls_get_conf('EMAIL_SMTP_SERVER',false)) { 
+            QApplication::Log(E_WARNING, 'smtp',
+                _sp('SMTP Server is not defined'));
+            return false;
+        }
 
-        /**
-         * BCC
-         */
-        if(($bcc = _xls_get_conf('EMAIL_BCC'))  && (trim($bcc) !=''))
-            $mail->setBcc($bcc);
-        
-        /**
-         * Set the text of the Email
-         */
-        $text = strip_tags($body);
-        $lines = explode("\n" , $text);
-        foreach($lines as $key=>$line)
-            $lines[$key] = trim($line);
-        $text = implode("\n" , $lines);
-        $mail->setText($text);
-        
+        // Create an Email MEssage
+        $objMessage = new QEmailMessage();
+        $objMessage->To = $to;
+        $objMessage->From = $from?$from:(_xls_get_conf('ORDER_FROM'));
+        $objMessage->Subject = $subject;
+
+        if ($bcc = _xls_get_conf('EMAIL_BCC') && trim($bcc != ''))
+            $objMessage->Bcc = $bcc;
+
+        // Add non-html body
+        $strText = strip_tags($body);
+        $arrLines = explode("\n" , $strText);
+        foreach($arrLines as $key=>$line)
+            $arrLines[$key] = trim($line);
+        $strText = implode("\n" , $arrLines);
+        $objMessage->Body = $strText;
+
+        // Add html body if applicable
         $enable_html = _xls_get_conf('HTML_EMAIL' , true);
-        
-        if(is_array($to))
-            $email = key($to);
-        else
-            $email = $to;
-        
+        if (is_array($to)) $email = key($to);
+        else $email = $to;
+
         try{
-            $cust = Customer::LoadByEmail(trim(strtolower($email)));
-            if($cust)
-                $enable_html = $cust->HtmlEmail;
-        }catch(Exception $e){
+            $objCust = Customer::LoadByEmail(trim(strtolower($email)));
+            if($objCust)
+                $enable_html = $objCust->HtmlEmail;
+        }
+        catch(Exception $e) {
             //do nothing..
         }
         
-        /**
-         * Set the HTML of the email
-         */
         if($enable_html)
-            $mail->setHTML($body);
-        
-        $mail->setSMTPParams(_xls_get_conf('EMAIL_SMTP_SERVER' , 'localhost'),
-            _xls_get_conf('EMAIL_SMTP_PORT', 25),
-            null,
-            _xls_get_conf('EMAIL_SMTP_USERNAME' , null) || 
-                _xls_get_conf('EMAIL_SMTP_PASSWORD', null),
-            _xls_get_conf('EMAIL_SMTP_USERNAME', null),
-            _xls_get_conf('EMAIL_SMTP_PASSWORD' , null));
+            $objMessage->HtmlBody = $body;
 
-        if(is_array($to))
-            $to = sprintf("%s <%s>" , current($to) , key($to));
-        
-        /**
-         * Send the email
-         */
-        try{
-            $mail->send(array($to) , 'smtp');
-        }catch(Exception $e){
-            _xls_log(_sp("Error sending e-mail") . " " . $e);
+        try { 
+            QEmailServer::Send($objMessage);
         }
-        
-        return;
+        catch (Exception $objExc) { 
+            QApplication::Log(E_WARNING, 'smtp',
+                _sp('Failed to send email : ') . $objExc->getMessage());
+            return false;
+        }
+
+        return true;
     }
     
     /**
