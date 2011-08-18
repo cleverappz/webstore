@@ -4308,7 +4308,22 @@
 			
 			$this->add_config_key('SEND_CUST_EMAIL' , "INSERT into `xlsws_configuration` VALUES (NULL,'Send customer email receipts', 'SEND_CUST_EMAIL', '1','Send email receipts to customers',8,10,NOW(),NOW(),'BOOL');" , '2.2');
 			$this->add_config_key('SEND_STORE_EMAIL' , "INSERT into `xlsws_configuration` VALUES (NULL,'Send store email notifications', 'SEND_STORE_EMAIL', '1','Send email to store when order is placed',8,10,NOW(),NOW(),'BOOL');" , '2.2');
-			
+            $this->add_table('xlsws_email' , "CREATE TABLE `xlsws_email` (
+             `rowid` int(11) unsigned NOT NULL AUTO_INCREMENT,
+             `id_str` varchar(255) DEFAULT NULL,
+             `status` varchar(20) DEFAULT NULL,
+             `to` text,
+             `to_email` text,
+             `subject` text,
+             `htmlbody` text,
+             `textbody` text,
+             `created` datetime DEFAULT NULL,
+             PRIMARY KEY (`rowid`),
+             KEY `idxstatus` (`status`),
+             KEY `idxidstr` (`id_str`)
+            ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;" , '2.2');
+                        
+
 			
 			
 			$this->arrMPnls['UpgradeWS']->Visible = true;
