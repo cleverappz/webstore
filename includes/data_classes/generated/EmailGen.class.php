@@ -13,10 +13,16 @@
 	 * overriding existing or implementing new methods, properties and variables
 	 * in the Email class.
 	 * 
-	 * @package My Application
+	 * @package LightSpeed Web Store
 	 * @subpackage GeneratedDataObjects
 	 * @property integer $Rowid the value for intRowid (Read-Only PK)
-	 * @property string $Email the value for strEmail (Unique)
+	 * @property string $IdStr the value for strIdStr 
+	 * @property string $Status the value for strStatus 
+	 * @property string $To the value for strTo 
+	 * @property string $From the value for strFrom 
+	 * @property string $Htmlbody the value for strHtmlbody 
+	 * @property string $Textbody the value for strTextbody 
+	 * @property QDateTime $Created the value for dttCreated 
 	 * @property boolean $__Restored whether or not this object was restored from the database (as opposed to created new)
 	 */
 	class EmailGen extends QBaseClass {
@@ -38,22 +44,22 @@
 		 * @var string strIdStr
 		 */
 		protected $strIdStr;
-		const IdStrMaxLength = 64;
+		const IdStrMaxLength = 255;
 		const IdStrDefault = null;
 
 
 		/**
 		 * Protected member variable that maps to the database column xlsws_email.status
-		 * @var string $strStatus
+		 * @var string strStatus
 		 */
 		protected $strStatus;
-		const StatusMaxLength = 255;
+		const StatusMaxLength = 20;
 		const StatusDefault = null;
 
 
 		/**
 		 * Protected member variable that maps to the database column xlsws_email.to
-		 * @var string $strStatus
+		 * @var string strTo
 		 */
 		protected $strTo;
 		const ToDefault = null;
@@ -61,7 +67,7 @@
 
 		/**
 		 * Protected member variable that maps to the database column xlsws_email.from
-		 * @var string $strStatus
+		 * @var string strFrom
 		 */
 		protected $strFrom;
 		const FromDefault = null;
@@ -69,15 +75,15 @@
 
 		/**
 		 * Protected member variable that maps to the database column xlsws_email.htmlbody
-		 * @var string $strStatus
+		 * @var string strHtmlbody
 		 */
 		protected $strHtmlbody;
 		const HtmlbodyDefault = null;
-		
+
 
 		/**
 		 * Protected member variable that maps to the database column xlsws_email.textbody
-		 * @var string $strStatus
+		 * @var string strTextbody
 		 */
 		protected $strTextbody;
 		const TextbodyDefault = null;
@@ -142,7 +148,7 @@
 		}
 
 		/**
-		 * Load all Families
+		 * Load all Emails
 		 * @param QQClause[] $objOptionalClauses additional optional QQClause objects for this query
 		 * @return Email[]
 		 */
@@ -157,7 +163,7 @@
 		}
 
 		/**
-		 * Count all Families
+		 * Count all Emails
 		 * @return int
 		 */
 		public static function CountAll() {
@@ -377,7 +383,13 @@
 			}
 
 			$objBuilder->AddSelectItem($strTableName, 'rowid', $strAliasPrefix . 'rowid');
-			$objBuilder->AddSelectItem($strTableName, 'Email', $strAliasPrefix . 'Email');
+			$objBuilder->AddSelectItem($strTableName, 'id_str', $strAliasPrefix . 'id_str');
+			$objBuilder->AddSelectItem($strTableName, 'status', $strAliasPrefix . 'status');
+			$objBuilder->AddSelectItem($strTableName, 'to', $strAliasPrefix . 'to');
+			$objBuilder->AddSelectItem($strTableName, 'from', $strAliasPrefix . 'from');
+			$objBuilder->AddSelectItem($strTableName, 'htmlbody', $strAliasPrefix . 'htmlbody');
+			$objBuilder->AddSelectItem($strTableName, 'textbody', $strAliasPrefix . 'textbody');
+			$objBuilder->AddSelectItem($strTableName, 'created', $strAliasPrefix . 'created');
 		}
 
 
@@ -411,8 +423,20 @@
 
 			$strAliasName = array_key_exists($strAliasPrefix . 'rowid', $strColumnAliasArray) ? $strColumnAliasArray[$strAliasPrefix . 'rowid'] : $strAliasPrefix . 'rowid';
 			$objToReturn->intRowid = $objDbRow->GetColumn($strAliasName, 'Integer');
-			$strAliasName = array_key_exists($strAliasPrefix . 'Email', $strColumnAliasArray) ? $strColumnAliasArray[$strAliasPrefix . 'Email'] : $strAliasPrefix . 'Email';
-			$objToReturn->strEmail = $objDbRow->GetColumn($strAliasName, 'VarChar');
+			$strAliasName = array_key_exists($strAliasPrefix . 'id_str', $strColumnAliasArray) ? $strColumnAliasArray[$strAliasPrefix . 'id_str'] : $strAliasPrefix . 'id_str';
+			$objToReturn->strIdStr = $objDbRow->GetColumn($strAliasName, 'VarChar');
+			$strAliasName = array_key_exists($strAliasPrefix . 'status', $strColumnAliasArray) ? $strColumnAliasArray[$strAliasPrefix . 'status'] : $strAliasPrefix . 'status';
+			$objToReturn->strStatus = $objDbRow->GetColumn($strAliasName, 'VarChar');
+			$strAliasName = array_key_exists($strAliasPrefix . 'to', $strColumnAliasArray) ? $strColumnAliasArray[$strAliasPrefix . 'to'] : $strAliasPrefix . 'to';
+			$objToReturn->strTo = $objDbRow->GetColumn($strAliasName, 'Blob');
+			$strAliasName = array_key_exists($strAliasPrefix . 'from', $strColumnAliasArray) ? $strColumnAliasArray[$strAliasPrefix . 'from'] : $strAliasPrefix . 'from';
+			$objToReturn->strFrom = $objDbRow->GetColumn($strAliasName, 'Blob');
+			$strAliasName = array_key_exists($strAliasPrefix . 'htmlbody', $strColumnAliasArray) ? $strColumnAliasArray[$strAliasPrefix . 'htmlbody'] : $strAliasPrefix . 'htmlbody';
+			$objToReturn->strHtmlbody = $objDbRow->GetColumn($strAliasName, 'Blob');
+			$strAliasName = array_key_exists($strAliasPrefix . 'textbody', $strColumnAliasArray) ? $strColumnAliasArray[$strAliasPrefix . 'textbody'] : $strAliasPrefix . 'textbody';
+			$objToReturn->strTextbody = $objDbRow->GetColumn($strAliasName, 'Blob');
+			$strAliasName = array_key_exists($strAliasPrefix . 'created', $strColumnAliasArray) ? $strColumnAliasArray[$strAliasPrefix . 'created'] : $strAliasPrefix . 'created';
+			$objToReturn->dttCreated = $objDbRow->GetColumn($strAliasName, 'DateTime');
 
 			// Instantiate Virtual Attributes
 			foreach ($objDbRow->GetColumnNameArray() as $strColumnName => $mixValue) {
@@ -433,7 +457,7 @@
 		}
 
 		/**
-		 * Instantiate an array of Families from a Database Result
+		 * Instantiate an array of Emails from a Database Result
 		 * @param DatabaseResultBase $objDbResult
 		 * @param string $strExpandAsArrayNodes
 		 * @param string[] $strColumnAliasArray
@@ -487,14 +511,66 @@
 		}
 			
 		/**
-		 * Load a single Email object,
-		 * by Email Index(es)
-		 * @param string $strEmail
-		 * @return Email
+		 * Load an array of Email objects,
+		 * by Status Index(es)
+		 * @param string $strStatus
+		 * @param QQClause[] $objOptionalClauses additional optional QQClause objects for this query
+		 * @return Email[]
 		*/
-		public static function LoadByEmail($strEmail) {
-			return Email::QuerySingle(
-				QQ::Equal(QQN::Email()->Email, $strEmail)
+		public static function LoadArrayByStatus($strStatus, $objOptionalClauses = null) {
+			// Call Email::QueryArray to perform the LoadArrayByStatus query
+			try {
+				return Email::QueryArray(
+					QQ::Equal(QQN::Email()->Status, $strStatus),
+					$objOptionalClauses);
+			} catch (QCallerException $objExc) {
+				$objExc->IncrementOffset();
+				throw $objExc;
+			}
+		}
+
+		/**
+		 * Count Emails
+		 * by Status Index(es)
+		 * @param string $strStatus
+		 * @return int
+		*/
+		public static function CountByStatus($strStatus) {
+			// Call Email::QueryCount to perform the CountByStatus query
+			return Email::QueryCount(
+				QQ::Equal(QQN::Email()->Status, $strStatus)
+			);
+		}
+			
+		/**
+		 * Load an array of Email objects,
+		 * by IdStr Index(es)
+		 * @param string $strIdStr
+		 * @param QQClause[] $objOptionalClauses additional optional QQClause objects for this query
+		 * @return Email[]
+		*/
+		public static function LoadArrayByIdStr($strIdStr, $objOptionalClauses = null) {
+			// Call Email::QueryArray to perform the LoadArrayByIdStr query
+			try {
+				return Email::QueryArray(
+					QQ::Equal(QQN::Email()->IdStr, $strIdStr),
+					$objOptionalClauses);
+			} catch (QCallerException $objExc) {
+				$objExc->IncrementOffset();
+				throw $objExc;
+			}
+		}
+
+		/**
+		 * Count Emails
+		 * by IdStr Index(es)
+		 * @param string $strIdStr
+		 * @return int
+		*/
+		public static function CountByIdStr($strIdStr) {
+			// Call Email::QueryCount to perform the CountByIdStr query
+			return Email::QueryCount(
+				QQ::Equal(QQN::Email()->IdStr, $strIdStr)
 			);
 		}
 
@@ -528,9 +604,21 @@
 					// Perform an INSERT query
 					$objDatabase->NonQuery('
 						INSERT INTO `xlsws_email` (
-							`Email`
+							`id_str`,
+							`status`,
+							`to`,
+							`from`,
+							`htmlbody`,
+							`textbody`,
+							`created`
 						) VALUES (
-							' . $objDatabase->SqlVariable($this->strEmail) . '
+							' . $objDatabase->SqlVariable($this->strIdStr) . ',
+							' . $objDatabase->SqlVariable($this->strStatus) . ',
+							' . $objDatabase->SqlVariable($this->strTo) . ',
+							' . $objDatabase->SqlVariable($this->strFrom) . ',
+							' . $objDatabase->SqlVariable($this->strHtmlbody) . ',
+							' . $objDatabase->SqlVariable($this->strTextbody) . ',
+							' . $objDatabase->SqlVariable($this->dttCreated) . '
 						)
 					');
 
@@ -546,7 +634,13 @@
 						UPDATE
 							`xlsws_email`
 						SET
-							`Email` = ' . $objDatabase->SqlVariable($this->strEmail) . '
+							`id_str` = ' . $objDatabase->SqlVariable($this->strIdStr) . ',
+							`status` = ' . $objDatabase->SqlVariable($this->strStatus) . ',
+							`to` = ' . $objDatabase->SqlVariable($this->strTo) . ',
+							`from` = ' . $objDatabase->SqlVariable($this->strFrom) . ',
+							`htmlbody` = ' . $objDatabase->SqlVariable($this->strHtmlbody) . ',
+							`textbody` = ' . $objDatabase->SqlVariable($this->strTextbody) . ',
+							`created` = ' . $objDatabase->SqlVariable($this->dttCreated) . '
 						WHERE
 							`rowid` = ' . $objDatabase->SqlVariable($this->intRowid) . '
 					');
@@ -586,7 +680,7 @@
 		}
 
 		/**
-		 * Delete all Families
+		 * Delete all Emails
 		 * @return void
 		 */
 		public static function DeleteAll() {
@@ -625,7 +719,13 @@
 			$objReloaded = Email::Load($this->intRowid);
 
 			// Update $this's local variables to match
-			$this->strEmail = $objReloaded->strEmail;
+			$this->strIdStr = $objReloaded->strIdStr;
+			$this->strStatus = $objReloaded->strStatus;
+			$this->strTo = $objReloaded->strTo;
+			$this->strFrom = $objReloaded->strFrom;
+			$this->strHtmlbody = $objReloaded->strHtmlbody;
+			$this->strTextbody = $objReloaded->strTextbody;
+			$this->dttCreated = $objReloaded->dttCreated;
 		}
 
 
@@ -651,10 +751,40 @@
 					// @return integer
 					return $this->intRowid;
 
-				case 'Email':
-					// Gets the value for strEmail (Unique)
+				case 'IdStr':
+					// Gets the value for strIdStr 
 					// @return string
-					return $this->strEmail;
+					return $this->strIdStr;
+
+				case 'Status':
+					// Gets the value for strStatus 
+					// @return string
+					return $this->strStatus;
+
+				case 'To':
+					// Gets the value for strTo 
+					// @return string
+					return $this->strTo;
+
+				case 'From':
+					// Gets the value for strFrom 
+					// @return string
+					return $this->strFrom;
+
+				case 'Htmlbody':
+					// Gets the value for strHtmlbody 
+					// @return string
+					return $this->strHtmlbody;
+
+				case 'Textbody':
+					// Gets the value for strTextbody 
+					// @return string
+					return $this->strTextbody;
+
+				case 'Created':
+					// Gets the value for dttCreated 
+					// @return QDateTime
+					return $this->dttCreated;
 
 
 				///////////////////
@@ -693,12 +823,78 @@
 				///////////////////
 				// Member Variables
 				///////////////////
-				case 'Email':
-					// Sets the value for strEmail (Unique)
+				case 'IdStr':
+					// Sets the value for strIdStr 
 					// @param string $mixValue
 					// @return string
 					try {
-						return ($this->strEmail = QType::Cast($mixValue, QType::String));
+						return ($this->strIdStr = QType::Cast($mixValue, QType::String));
+					} catch (QCallerException $objExc) {
+						$objExc->IncrementOffset();
+						throw $objExc;
+					}
+
+				case 'Status':
+					// Sets the value for strStatus 
+					// @param string $mixValue
+					// @return string
+					try {
+						return ($this->strStatus = QType::Cast($mixValue, QType::String));
+					} catch (QCallerException $objExc) {
+						$objExc->IncrementOffset();
+						throw $objExc;
+					}
+
+				case 'To':
+					// Sets the value for strTo 
+					// @param string $mixValue
+					// @return string
+					try {
+						return ($this->strTo = QType::Cast($mixValue, QType::String));
+					} catch (QCallerException $objExc) {
+						$objExc->IncrementOffset();
+						throw $objExc;
+					}
+
+				case 'From':
+					// Sets the value for strFrom 
+					// @param string $mixValue
+					// @return string
+					try {
+						return ($this->strFrom = QType::Cast($mixValue, QType::String));
+					} catch (QCallerException $objExc) {
+						$objExc->IncrementOffset();
+						throw $objExc;
+					}
+
+				case 'Htmlbody':
+					// Sets the value for strHtmlbody 
+					// @param string $mixValue
+					// @return string
+					try {
+						return ($this->strHtmlbody = QType::Cast($mixValue, QType::String));
+					} catch (QCallerException $objExc) {
+						$objExc->IncrementOffset();
+						throw $objExc;
+					}
+
+				case 'Textbody':
+					// Sets the value for strTextbody 
+					// @param string $mixValue
+					// @return string
+					try {
+						return ($this->strTextbody = QType::Cast($mixValue, QType::String));
+					} catch (QCallerException $objExc) {
+						$objExc->IncrementOffset();
+						throw $objExc;
+					}
+
+				case 'Created':
+					// Sets the value for dttCreated 
+					// @param QDateTime $mixValue
+					// @return QDateTime
+					try {
+						return ($this->dttCreated = QType::Cast($mixValue, QType::DateTime));
 					} catch (QCallerException $objExc) {
 						$objExc->IncrementOffset();
 						throw $objExc;
@@ -746,7 +942,13 @@
 		public static function GetSoapComplexTypeXml() {
 			$strToReturn = '<complexType name="Email"><sequence>';
 			$strToReturn .= '<element name="Rowid" type="xsd:int"/>';
-			$strToReturn .= '<element name="Email" type="xsd:string"/>';
+			$strToReturn .= '<element name="IdStr" type="xsd:string"/>';
+			$strToReturn .= '<element name="Status" type="xsd:string"/>';
+			$strToReturn .= '<element name="To" type="xsd:string"/>';
+			$strToReturn .= '<element name="From" type="xsd:string"/>';
+			$strToReturn .= '<element name="Htmlbody" type="xsd:string"/>';
+			$strToReturn .= '<element name="Textbody" type="xsd:string"/>';
+			$strToReturn .= '<element name="Created" type="xsd:dateTime"/>';
 			$strToReturn .= '<element name="__blnRestored" type="xsd:boolean"/>';
 			$strToReturn .= '</sequence></complexType>';
 			return $strToReturn;
@@ -771,8 +973,20 @@
 			$objToReturn = new Email();
 			if (property_exists($objSoapObject, 'Rowid'))
 				$objToReturn->intRowid = $objSoapObject->Rowid;
-			if (property_exists($objSoapObject, 'Email'))
-				$objToReturn->strEmail = $objSoapObject->Email;
+			if (property_exists($objSoapObject, 'IdStr'))
+				$objToReturn->strIdStr = $objSoapObject->IdStr;
+			if (property_exists($objSoapObject, 'Status'))
+				$objToReturn->strStatus = $objSoapObject->Status;
+			if (property_exists($objSoapObject, 'To'))
+				$objToReturn->strTo = $objSoapObject->To;
+			if (property_exists($objSoapObject, 'From'))
+				$objToReturn->strFrom = $objSoapObject->From;
+			if (property_exists($objSoapObject, 'Htmlbody'))
+				$objToReturn->strHtmlbody = $objSoapObject->Htmlbody;
+			if (property_exists($objSoapObject, 'Textbody'))
+				$objToReturn->strTextbody = $objSoapObject->Textbody;
+			if (property_exists($objSoapObject, 'Created'))
+				$objToReturn->dttCreated = new QDateTime($objSoapObject->Created);
 			if (property_exists($objSoapObject, '__blnRestored'))
 				$objToReturn->__blnRestored = $objSoapObject->__blnRestored;
 			return $objToReturn;
@@ -791,6 +1005,8 @@
 		}
 
 		public static function GetSoapObjectFromObject($objObject, $blnBindRelatedObjects) {
+			if ($objObject->dttCreated)
+				$objObject->dttCreated = $objObject->dttCreated->__toString(QDateTime::FormatSoap);
 			return $objObject;
 		}
 
@@ -813,8 +1029,20 @@
 			switch ($strName) {
 				case 'Rowid':
 					return new QQNode('rowid', 'Rowid', 'integer', $this);
-				case 'Email':
-					return new QQNode('Email', 'Email', 'string', $this);
+				case 'IdStr':
+					return new QQNode('id_str', 'IdStr', 'string', $this);
+				case 'Status':
+					return new QQNode('status', 'Status', 'string', $this);
+				case 'To':
+					return new QQNode('to', 'To', 'string', $this);
+				case 'From':
+					return new QQNode('from', 'From', 'string', $this);
+				case 'Htmlbody':
+					return new QQNode('htmlbody', 'Htmlbody', 'string', $this);
+				case 'Textbody':
+					return new QQNode('textbody', 'Textbody', 'string', $this);
+				case 'Created':
+					return new QQNode('created', 'Created', 'QDateTime', $this);
 
 				case '_PrimaryKeyNode':
 					return new QQNode('rowid', 'Rowid', 'integer', $this);
@@ -837,8 +1065,20 @@
 			switch ($strName) {
 				case 'Rowid':
 					return new QQNode('rowid', 'Rowid', 'integer', $this);
-				case 'Email':
-					return new QQNode('Email', 'Email', 'string', $this);
+				case 'IdStr':
+					return new QQNode('id_str', 'IdStr', 'string', $this);
+				case 'Status':
+					return new QQNode('status', 'Status', 'string', $this);
+				case 'To':
+					return new QQNode('to', 'To', 'string', $this);
+				case 'From':
+					return new QQNode('from', 'From', 'string', $this);
+				case 'Htmlbody':
+					return new QQNode('htmlbody', 'Htmlbody', 'string', $this);
+				case 'Textbody':
+					return new QQNode('textbody', 'Textbody', 'string', $this);
+				case 'Created':
+					return new QQNode('created', 'Created', 'QDateTime', $this);
 
 				case '_PrimaryKeyNode':
 					return new QQNode('rowid', 'Rowid', 'integer', $this);

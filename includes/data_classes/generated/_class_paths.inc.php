@@ -62,6 +62,11 @@
 		QApplicationBase::$ClassFile['destinationmetacontrol'] = __DATA_META_CONTROLS__ . '/DestinationMetaControl.class.php';
 		QApplicationBase::$ClassFile['destinationdatagrid'] = __DATA_META_CONTROLS__ . '/DestinationDataGrid.class.php';
 
+	// ClassPaths for the Email class
+		QApplicationBase::$ClassFile['email'] = __DATA_CLASSES__ . '/Email.class.php';
+		QApplicationBase::$ClassFile['qqnodeemail'] = __DATA_CLASSES__ . '/Email.class.php';
+		QApplicationBase::$ClassFile['qqreversereferencenodeemail'] = __DATA_CLASSES__ . '/Email.class.php';
+
 	// ClassPaths for the Family class
 		QApplicationBase::$ClassFile['family'] = __DATA_CLASSES__ . '/Family.class.php';
 		QApplicationBase::$ClassFile['qqnodefamily'] = __DATA_CLASSES__ . '/Family.class.php';

@@ -55,6 +55,12 @@
 			return new QQNodeDestination('xlsws_destination', null, null);
 		}
 		/**
+		 * @return QQNodeEmail
+		 */
+		static public function Email() {
+			return new QQNodeEmail('xlsws_email', null, null);
+		}
+		/**
 		 * @return QQNodeFamily
 		 */
 		static public function Family() {
