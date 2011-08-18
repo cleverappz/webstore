@@ -1641,6 +1641,12 @@ class xlsws_checkout extends xlsws_index {
 		if(function_exists('_custom_after_order_process'))
 				_custom_after_order_process($cart);
 
+
+        //Create emails in table
+        
+
+
+
 		// Add log for checkout -- ALL OK
 		Visitor::add_view_log('',ViewLogType::checkoutfinal);
 

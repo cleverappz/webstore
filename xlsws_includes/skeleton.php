@@ -1314,10 +1314,11 @@ class xlsws_index extends QForm {
 			_rd($cart->Link);
 	}
 
+    //Send any pending emails
 	public static function send_email($cart) {
 		$order_id = $cart->IdStr;
 		$zipcode = $cart->Zipcode;
-
+        
 		_xls_mail(
 			$cart->Email,
 			_xls_get_conf('STORE_NAME', 'Web') . " " . _sp("Order Notification") . " " . $order_id,

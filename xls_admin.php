@@ -4306,6 +4306,10 @@
 			$this->add_config_key('SESSION_HANDLER' , "INSERT INTO `xlsws_configuration` VALUES (NULL, 'Session storage', 'SESSION_HANDLER', 'FS', 'Store sessions in the database or file system?', 1, 6, NOW(), NOW(), 'STORE_IMAGE_LOCATION');" , '2.1');
 			$this->add_config_key('CHILD_SEARCH' , "INSERT into `xlsws_configuration` VALUES (NULL,'Show child products in search results', 'CHILD_SEARCH', '','If you want child products from a size color matrix to show up in search results, enable this option',8,10,NOW(),NOW(),'BOOL');" , '2.1');
 			
+			$this->add_config_key('SEND_CUST_EMAIL' , "INSERT into `xlsws_configuration` VALUES (NULL,'Send customer email receipts', 'SEND_CUST_EMAIL', '1','Send email receipts to customers',8,10,NOW(),NOW(),'BOOL');" , '2.2');
+			$this->add_config_key('SEND_STORE_EMAIL' , "INSERT into `xlsws_configuration` VALUES (NULL,'Send store email notifications', 'SEND_STORE_EMAIL', '1','Send email to store when order is placed',8,10,NOW(),NOW(),'BOOL');" , '2.2');
+			
+			
 			
 			$this->arrMPnls['UpgradeWS']->Visible = true;
 			$this->arrMPnls['UpgradeWS']->Refresh();			
