@@ -74,7 +74,7 @@
 
 			if (QApplication::$RequestMode == QRequestMode::Ajax) {
 				if (defined('ERROR_FRIENDLY_AJAX_MESSAGE') && ERROR_FRIENDLY_AJAX_MESSAGE) {
-					// Reset the Buffer
+					error_log(QErrorHandler::$Message); // Reset the Buffer
 					while(ob_get_level()) ob_end_clean();
 		
 					// Setup the Friendly Response
